@@ -1,8 +1,10 @@
-const {program} = require('commander');
 const fs = require('fs');
 const path = require('path');
-const appDir = path.dirname(require.main.filename)
 
+const program = require('commander').program;
+const writeError = require('../helpers/writeError');
+
+const appDir = path.dirname(require.main.filename)
 
 program
     .requiredOption('-s, --shift <shift>', 'a shift')
@@ -24,9 +26,8 @@ if (program.shift) {
 }
 
 if (program.action) {
-    console.log(program.action);
     if (program.action != 'encrypt' && program.action != 'decrypt') {
-        throw new Error('Wrong type: type should be encrypt or decrypt')
+        writeError('Wrong type: type should be encrypt or decrypt')
     }
     action = program.action;
 }
@@ -37,7 +38,7 @@ if (program.output) {
     outputStream = fs
         .createWriteStream(filePath)
         .on('error', err => {
-            throw new Error(`Error ${err.message} occured at ${filePath}, make sure it's a proper file`)
+            writeError(`Error ${err.message} occured at ${filePath}, make sure it's a proper file`)
         });
 }
 
@@ -47,7 +48,7 @@ if (program.input) {
     inputStream = fs
         .createReadStream(filePath)
         .on('error', err => {
-            throw new Error(`Error ${err.message} occured at ${filePath}, make sure it's a proper file`)
+            writeError(`Error ${err.message} occured at ${filePath}, make sure it's a proper file`)
         })
 }
 

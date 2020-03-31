@@ -1,10 +1,12 @@
-const { Transform } = require('stream');
+const {
+    Transform
+} = require('stream');
 
 class EncodeStream extends Transform {
     constructor(encoder, action) {
         if (!action) throw new Error('Missing Paramener: action');
         if (!encoder) throw new Error('Missing Paramener: encoder');
-        
+
         super();
         this._encoder = encoder;
         this._action = action;
